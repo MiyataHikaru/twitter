@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      log_in(@user)
       redirect_to @user, notice: 'Twitterもどきへようこそ'
     else
       render :new
@@ -18,7 +19,7 @@ class UsersController < ApplicationController
   end
 
   def index
-
+    @users = User.all
   end
 
   def edit
@@ -40,7 +41,8 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:name, :email)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+
     end
 
 
